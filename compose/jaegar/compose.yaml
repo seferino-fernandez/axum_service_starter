@@ -1,0 +1,44 @@
+name: axum-service-jaeger-stack
+
+services:
+    jaeger:
+        image: ${REGISTRY:-}jaegertracing/jaeger:${JAEGER_VERSION:-latest}
+        ports:
+            - "16686:16686"
+            - "4317:4317"
+            - "4318:4318"
+            - "5778:5778"
+            - "9411:9411"
+        restart: on-failure
+        networks:
+            - backend
+
+    axum_service_starter:
+        networks:
+            - backend
+        build:
+            context: ../../
+            dockerfile: Dockerfile
+        image: axum-service-starter
+        ports:
+            - "8080:8080"
+        environment:
+            - APP_NAME=axum-service-starter
+            - RUST_LOG=info,axum_service_starter=debug,tower_http=debug
+            - SERVER_ENVIRONMENT=development
+            - SERVER_PORT=8080
+            - OTEL_SERVICE_NAME=axum-service-starter
+            - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4317
+            - OTEL_METRIC_EXPORT_INTERVAL=10000
+            - OTEL_ENABLED=true
+            - OTEL_PROVIDER=jaegar
+            - OTEL_PROVIDER_ORGANIZATION=default
+            - OTEL_PROVIDER_STREAM_NAME=axum-service-starter
+        depends_on:
+            - jaeger
+
+networks:
+    backend:
+
+volumes:
+    data:

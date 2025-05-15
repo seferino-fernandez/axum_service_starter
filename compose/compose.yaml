@@ -1,0 +1,15 @@
+name: axum-service-starter
+
+services:
+    axum_service_starter:
+        build:
+            context: ../
+            dockerfile: Dockerfile
+        image: axum-service-starter
+        ports:
+            - "8080:8080"
+        environment:
+            - RUST_LOG=info,axum_service_starter=debug,tower_http=debug
+            - SERVER_ENVIRONMENT=development
+            - APP_NAME=axum-service-starter
+            - OTEL_SDK_ENABLED=false
