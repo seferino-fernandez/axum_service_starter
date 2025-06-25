@@ -25,7 +25,7 @@ pub struct AppState {
         description = "API documentation for Axum Service Starter",
     ),
     tags(
-        (name = "languages", description = "Languages API"),
+        (name = "system", description = "API's to manage this system"),
     )
 )]
 struct ApiDoc;
@@ -38,14 +38,20 @@ pub fn router(app_config: AppConfig) -> axum::Router {
         .nest("/system", routes::HealthApi::router())
         .split_for_parts();
 
-    // Use `leak()` because the meter provider wants a static string (&str) but the service name is from an env variable.
-    let global_meter =
-        global::meter_provider().meter(app_state.app_config.application.name.clone().leak());
+    let otel_metrics_layer = if !app_state.app_config.otel.sdk_disabled {
+        // Use `leak()` because the meter provider wants a static string (&str) but the service name is from an env variable.
+        let global_meter =
+            global::meter_provider().meter(app_state.app_config.application.name.clone().leak());
 
-    let otel_metrics_layer = tower_otel_http_metrics::HTTPMetricsLayerBuilder::builder()
-        .with_meter(global_meter)
-        .build()
-        .unwrap();
+        Some(
+            tower_otel_http_metrics::HTTPMetricsLayerBuilder::builder()
+                .with_meter(global_meter)
+                .build()
+                .unwrap(),
+        )
+    } else {
+        None
+    };
 
     let body_limit_layer = if app_state.app_config.server.file_upload_max_size_enabled {
         Some(server::body_limit_layer(&app_state.app_config.server))
@@ -63,10 +69,12 @@ pub fn router(app_config: AppConfig) -> axum::Router {
     if let Some(limit_layer) = body_limit_layer {
         router = router.layer(limit_layer);
     }
-
-    router
+    router = router
         .layer(server::normalize_path_layer())
-        .layer(server::timeout_layer(&app_state.app_config.server))
-        .layer(otel_metrics_layer)
-        .with_state(app_state)
+        .layer(server::timeout_layer(&app_state.app_config.server));
+
+    if let Some(otel_metrics_layer) = otel_metrics_layer {
+        router = router.layer(otel_metrics_layer);
+    }
+    router.with_state(app_state)
 }

@@ -30,7 +30,7 @@ services:
             - OTEL_SERVICE_NAME=axum-service-starter
             - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4317
             - OTEL_METRIC_EXPORT_INTERVAL=10000
-            - OTEL_ENABLED=true
+            - OTEL_SDK_DISABLED=false
             - OTEL_PROVIDER=jaegar
             - OTEL_PROVIDER_ORGANIZATION=default
             - OTEL_PROVIDER_STREAM_NAME=axum-service-starter

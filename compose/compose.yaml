@@ -12,4 +12,4 @@ services:
             - RUST_LOG=info,axum_service_starter=debug,tower_http=debug
             - SERVER_ENVIRONMENT=development
             - APP_NAME=axum-service-starter
-            - OTEL_SDK_ENABLED=false
+            - OTEL_SDK_DISABLED=true

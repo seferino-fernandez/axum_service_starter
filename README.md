@@ -11,6 +11,13 @@ The full list of crates used can be found in the [Cargo.toml](./Cargo.toml) file
 
 ## Getting Started
 
+### Rename the application
+
+Rename all of these values to your application name:
+- axum_service_starter
+- axum-service-starter
+- Axum Service Starter
+
 ### Configure the Application
 
 #### Environment Variables

@@ -14,7 +14,7 @@ use crate::models::health::HealthResponse;
             example = json!({"status": "ok"})
         ),
    ),
-    tag = "health",
+    tag = "system",
 )]
 pub async fn health() -> Result<Json<HealthResponse>, ErrorType> {
     Ok(Json(HealthResponse::new("ok")))

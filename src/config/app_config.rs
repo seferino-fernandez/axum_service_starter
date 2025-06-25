@@ -63,7 +63,7 @@ pub struct OtelProviderConfig {
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct OtelConfig {
-    pub sdk_enabled: bool,
+    pub sdk_disabled: bool,
     pub service_name: Option<String>,
     pub traces_endpoint: Option<String>,
     pub logs_endpoint: Option<String>,
@@ -131,7 +131,7 @@ impl AppConfig {
         if is_otel_sdk_explicitly_disabled {
             // SDK is disabled, populate OtelConfig with default "disabled" values.
             OtelConfig {
-                sdk_enabled: false,
+                sdk_disabled: true,
                 service_name: None,
                 traces_endpoint: None,
                 logs_endpoint: None,
@@ -143,7 +143,7 @@ impl AppConfig {
             let common_otlp_endpoint = env::var("OTEL_EXPORTER_OTLP_ENDPOINT").ok();
 
             OtelConfig {
-                sdk_enabled: true,
+                sdk_disabled: false,
                 service_name: env::var("OTEL_SERVICE_NAME").ok(),
                 traces_endpoint: env::var("OTEL_EXPORTER_OTLP_TRACES_ENDPOINT")
                     .ok()
