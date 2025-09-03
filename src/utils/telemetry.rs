@@ -4,6 +4,7 @@ use crate::config::app_config::AppConfig;
 use anyhow::Error;
 use opentelemetry::{self, KeyValue, global, trace::TracerProvider};
 use opentelemetry_appender_tracing::layer::OpenTelemetryTracingBridge;
+use opentelemetry_otlp::tonic_types::metadata::MetadataMap;
 use opentelemetry_otlp::{LogExporter, SpanExporter, WithExportConfig, WithTonicConfig};
 use opentelemetry_sdk::{
     Resource,
@@ -15,7 +16,7 @@ use opentelemetry_semantic_conventions::{
     resource::{DEPLOYMENT_ENVIRONMENT_NAME, SERVICE_NAME},
     trace::{SERVER_ADDRESS, SERVER_PORT},
 };
-use tonic::metadata::{MetadataMap, MetadataValue};
+use tonic::metadata::MetadataValue;
 use tracing_subscriber::{
     EnvFilter, Layer, Registry, fmt::format::FmtSpan, layer::SubscriberExt as _,
 };
