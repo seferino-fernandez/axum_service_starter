@@ -1,5 +1,6 @@
 use axum::extract::DefaultBodyLimit;
 use opentelemetry::global;
+use opentelemetry_instrumentation_tower::HTTPMetricsLayerBuilder;
 use utoipa::OpenApi;
 pub mod config;
 pub mod middleware;
@@ -25,7 +26,7 @@ pub struct AppState {
         description = "API documentation for Axum Service Starter",
     ),
     tags(
-        (name = "system", description = "API's to manage this system"),
+        (name = "System", description = "System Management APIs"),
     )
 )]
 struct ApiDoc;
@@ -44,7 +45,7 @@ pub fn router(app_config: AppConfig) -> axum::Router {
             global::meter_provider().meter(app_state.app_config.application.name.clone().leak());
 
         Some(
-            tower_otel_http_metrics::HTTPMetricsLayerBuilder::builder()
+            HTTPMetricsLayerBuilder::builder()
                 .with_meter(global_meter)
                 .build()
                 .unwrap(),
