@@ -14,32 +14,38 @@ on:
 
 env:
     CARGO_TERM_COLOR: always
-
+    CARGO_INCREMENTAL: 0
+    RUSTFLAGS: -D warnings
+    CARGO_PROFILE_TEST_DEBUG: 0
 jobs:
     test:
         runs-on: ubuntu-latest
-
         steps:
-            - uses: actions/checkout@v4
+            - uses: actions/checkout@v6
               with:
                   lfs: true
+            - name: Install Rust toolchain
+              uses: dtolnay/rust-toolchain@stable
+            - name: Install cargo nextest
+              uses: taiki-e/install-action@cargo-nextest
+            - uses: Swatinem/rust-cache@v2
+            - name: Compile
+              run: cargo check --locked
+            - name: Run tests
+              run: cargo nextest run --all-targets --all-features
 
+    lint:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v6
+              with:
+                  lfs: true
             - name: Install Rust toolchain
               uses: dtolnay/rust-toolchain@stable
               with:
                   components: clippy,rustfmt
-
-            - name: Install cargo nextest
-              uses: taiki-e/install-action@cargo-nextest
-
-            - name: Check formatting
+            - uses: Swatinem/rust-cache@v2
+            - name: Run cargo fmt (check if all code is rustfmt-ed)
               run: cargo fmt --all --check
-
-            - name: Lint with clippy
-              run: cargo clippy --all-targets -- -D warnings
-
-            - name: Run tests
-              run: cargo nextest --verbose run
-
-            - name: Build
-              run: cargo build --release
+            - name: Run cargo clippy (deny warnings)
+              run: cargo clippy --all-targets --all-features -- -D warnings

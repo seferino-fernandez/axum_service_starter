@@ -4,3 +4,4 @@ tests/
 .env
 .dockerignore
 Dockerfile
+justfile
