@@ -40,7 +40,7 @@ opentelemetry-instrumentation-tower = { version = "0.17.0", features = ["axum"] 
 
 # Tracing
 tracing = "0.1.44"
-tracing-subscriber = { version = "0.3.22", features = ["json", "env-filter"] }
+tracing-subscriber = { version = "0.3.23", features = ["json", "env-filter"] }
 tracing-opentelemetry = { version = "0.32.1", features = ["metrics"] }
 
 # OpenAPI Documentation
@@ -50,7 +50,7 @@ utoipa-scalar = { version = "0.3.0", features = ["axum"] }
 
 [dev-dependencies]
 insta = { version = "1.46.3", features = ["yaml", "filters"] }
-tempfile = "3.26.0"
+tempfile = "3.27.0"
 
 [profile.dev.package]
 # Insta: Faster runs https://insta.rs/docs/quickstart/#optional-faster-runs
