@@ -34,7 +34,7 @@ thiserror = "2.0.18"
 opentelemetry = { version = "0.31.0", features = ["logs", "metrics", "trace", "internal-logs"] }
 opentelemetry_sdk = { version = "0.31.0", features = ["rt-tokio", "logs", "metrics", "trace", "spec_unstable_metrics_views"] }
 opentelemetry-semantic-conventions = { version = "0.31.0", features = ["semconv_experimental"] }
-opentelemetry-otlp = { version = "0.31.0", features = ["grpc-tonic","tls-roots"] }
+opentelemetry-otlp = { version = "0.31.1", features = ["grpc-tonic","tls-roots"] }
 opentelemetry-appender-tracing = { version = "0.31.1", features = ["experimental_use_tracing_span_context"] }
 opentelemetry-instrumentation-tower = { version = "0.17.0", features = ["axum"] }
 
