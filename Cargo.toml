@@ -12,7 +12,7 @@ path = "src/main.rs"
 name = "axum_service_starter"
 
 [dependencies]
-tokio = { version = "1.50.0", features = ["full"] }
+tokio = { version = "1.51.0", features = ["full"] }
 axum = { version = "0.8.8", features = ["multipart"] }
 tower = { version = "0.5.3", features = [] }
 tower-http = { version = "0.6.8", features = [
@@ -23,7 +23,7 @@ tower-http = { version = "0.6.8", features = [
     "limit",
 ] }
 http = "1.4.0"
-hyper = "1.8.1"
+hyper = "1.9.0"
 tonic = { version = "0.14.5", features = ["tls-native-roots"] }
 serde = { version = "1.0.228", features = ["derive"] }
 dotenvy = "0.15.7"
@@ -49,7 +49,7 @@ utoipa = "5.4.0"
 utoipa-scalar = { version = "0.3.0", features = ["axum"] }
 
 [dev-dependencies]
-insta = { version = "1.47.0", features = ["yaml", "filters"] }
+insta = { version = "1.47.2", features = ["yaml", "filters"] }
 tempfile = "3.27.0"
 
 [profile.dev.package]
