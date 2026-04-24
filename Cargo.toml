@@ -12,8 +12,8 @@ path = "src/main.rs"
 name = "axum_service_starter"
 
 [dependencies]
-tokio = { version = "1.51.0", features = ["full"] }
-axum = { version = "0.8.8", features = ["multipart"] }
+tokio = { version = "1.52.1", features = ["full"] }
+axum = { version = "0.8.9", features = ["multipart"] }
 tower = { version = "0.5.3", features = [] }
 tower-http = { version = "0.6.8", features = [
     "trace",
