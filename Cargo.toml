@@ -12,10 +12,10 @@ path = "src/main.rs"
 name = "axum_service_starter"
 
 [dependencies]
-tokio = { version = "1.51.0", features = ["full"] }
-axum = { version = "0.8.8", features = ["multipart"] }
+tokio = { version = "1.52.3", features = ["full"] }
+axum = { version = "0.8.9", features = ["multipart"] }
 tower = { version = "0.5.3", features = [] }
-tower-http = { version = "0.6.8", features = [
+tower-http = { version = "0.6.10", features = [
     "trace",
     "timeout",
     "cors",
@@ -24,7 +24,7 @@ tower-http = { version = "0.6.8", features = [
 ] }
 http = "1.4.0"
 hyper = "1.9.0"
-tonic = { version = "0.14.5", features = ["tls-native-roots"] }
+tonic = { version = "0.14.6", features = ["tls-native-roots"] }
 serde = { version = "1.0.228", features = ["derive"] }
 dotenvy = "0.15.7"
 anyhow = "1.0.102"
@@ -45,7 +45,7 @@ tracing-opentelemetry = { version = "0.32.1", features = ["metrics"] }
 
 # OpenAPI Documentation
 utoipa-axum = "0.2.0"
-utoipa = "5.4.0"
+utoipa = "5.5.0"
 utoipa-scalar = { version = "0.3.0", features = ["axum"] }
 
 [dev-dependencies]
