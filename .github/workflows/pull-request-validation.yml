@@ -2,21 +2,26 @@ name: Pull Request Validation
 
 on:
     push:
-        branches: ["main"]
+        branches:
+            - main
         paths-ignore:
-            - "README.md"
-            - "Dockerfile"
+            - "**.md"
     pull_request:
-        branches: ["main"]
         paths-ignore:
-            - "README.md"
-            - "Dockerfile"
+            - "**.md"
+
+permissions: {}
 
 env:
     CARGO_TERM_COLOR: always
     CARGO_INCREMENTAL: 0
     RUSTFLAGS: -D warnings
     CARGO_PROFILE_TEST_DEBUG: 0
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+    cancel-in-progress: true
+
 jobs:
     test:
         runs-on: ubuntu-latest
@@ -45,7 +50,7 @@ jobs:
               with:
                   components: clippy,rustfmt
             - uses: Swatinem/rust-cache@v2
-            - name: Run cargo fmt (check if all code is rustfmt-ed)
+            - name: Run cargo fmt
               run: cargo fmt --all --check
-            - name: Run cargo clippy (deny warnings)
+            - name: Run cargo clippy
               run: cargo clippy --all-targets --all-features -- -D warnings

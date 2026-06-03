@@ -12,40 +12,42 @@ path = "src/main.rs"
 name = "axum_service_starter"
 
 [dependencies]
-tokio = { version = "1.51.0", features = ["full"] }
-axum = { version = "0.8.8", features = ["multipart"] }
+tokio = { version = "1.52.3", features = ["full"] }
+axum = { version = "0.8.9", features = ["multipart"] }
 tower = { version = "0.5.3", features = [] }
-tower-http = { version = "0.6.8", features = [
+tower-http = { version = "0.6.11", features = [
     "trace",
     "timeout",
     "cors",
     "normalize-path",
     "limit",
 ] }
-http = "1.4.0"
-hyper = "1.9.0"
-tonic = { version = "0.14.5", features = ["tls-native-roots"] }
+http = "1.4.1"
+hyper = "1.10.1"
+tonic = { version = "0.14.6", features = ["tls-native-roots"] }
 serde = { version = "1.0.228", features = ["derive"] }
 dotenvy = "0.15.7"
+
 anyhow = "1.0.102"
 thiserror = "2.0.18"
 
 # OpenTelemetry
-opentelemetry = { version = "0.31.0", features = ["logs", "metrics", "trace", "internal-logs"] }
-opentelemetry_sdk = { version = "0.31.0", features = ["rt-tokio", "logs", "metrics", "trace", "spec_unstable_metrics_views"] }
-opentelemetry-semantic-conventions = { version = "0.31.0", features = ["semconv_experimental"] }
-opentelemetry-otlp = { version = "0.31.1", features = ["grpc-tonic","tls-roots"] }
-opentelemetry-appender-tracing = { version = "0.31.1", features = ["experimental_use_tracing_span_context"] }
-opentelemetry-instrumentation-tower = { version = "0.17.0", features = ["axum"] }
+opentelemetry = { version = "0.32.0", features = ["logs", "metrics", "trace", "internal-logs"] }
+opentelemetry_sdk = { version = "0.32.1", features = ["rt-tokio", "logs", "metrics", "trace", "spec_unstable_metrics_views"] }
+opentelemetry-semantic-conventions = { version = "0.32.0", features = ["semconv_experimental"] }
+opentelemetry-otlp = { version = "0.32.0", features = ["grpc-tonic","tls-roots"] }
+opentelemetry-appender-tracing = { version = "0.32.0", features = [] }
+# The crate 'opentelemetry-instrumentation-tower' was moved to the opentelemetry-rust-contrib repo but no release has been created for it yet on crates.io.
+opentelemetry-instrumentation-tower = { git = "https://github.com/open-telemetry/opentelemetry-rust-contrib.git", rev = "22a4fb35959cb574347bcddd7128a5015ddd4a1f" }
 
 # Tracing
 tracing = "0.1.44"
 tracing-subscriber = { version = "0.3.23", features = ["json", "env-filter"] }
-tracing-opentelemetry = { version = "0.32.1", features = ["metrics"] }
+tracing-opentelemetry = { version = "0.33.0", features = ["metrics"] }
 
 # OpenAPI Documentation
 utoipa-axum = "0.2.0"
-utoipa = "5.4.0"
+utoipa = "5.5.0"
 utoipa-scalar = { version = "0.3.0", features = ["axum"] }
 
 [dev-dependencies]
@@ -62,3 +64,63 @@ strip = true      # Automatically strip symbols from the binary.
 lto = true        # Enable Link Time Optimization (LTO)
 codegen-units = 1 # Reduce Parallel Code Generation Units to Increase Optimization
 panic = "abort"
+
+[workspace.lints.clippy]
+# Prevent panics from unwraps and unsafe slicing or indexing
+string_slice = "warn"
+indexing_slicing = "warn"
+unwrap_used = "warn"
+panic = "warn"
+todo = "warn"
+unimplemented = "warn"
+unreachable = "warn"
+get_unwrap = "warn"
+unwrap_in_result = "warn"
+unchecked_time_subtraction = "warn"
+panic_in_result_fn = "warn"
+expect_used = "warn"
+arithmetic_side_effects = "warn"
+
+# Prevent dropped futures and swallowed errors
+let_underscore_future = "warn"
+let_underscore_must_use = "warn"
+unused_result_ok = "warn"
+map_err_ignore = "warn"
+assertions_on_result_states = "warn"
+
+# Prevent deadlocks and concurrency bugs
+await_holding_lock = "warn"
+await_holding_refcell_ref = "warn"
+if_let_mutex = "warn"
+large_futures = "warn"
+
+# Prevent unsafe things with memory
+mem_forget = "warn"
+undocumented_unsafe_blocks = "warn"
+multiple_unsafe_ops_per_block = "warn"
+unnecessary_safety_doc = "warn"
+unnecessary_safety_comment = "warn"
+
+# Prevent potentially incorrect things with numbers
+float_cmp = "warn"
+float_cmp_const = "warn"
+lossy_float_literal = "warn"
+cast_sign_loss = "warn"
+invalid_upcast_comparisons = "warn"
+# these effectively force you to document numeric invariants
+cast_possible_wrap = "warn"
+cast_precision_loss = "warn"
+cast_possible_truncation = "warn"
+
+# Don't Do Bad Things That are Easy to Avoid
+rc_mutex = "warn"
+debug_assert_with_mut_call = "warn"
+iter_not_returning_iterator = "warn"
+expl_impl_clone_on_copy = "warn"
+infallible_try_from = "warn"
+dbg_macro = "warn"
+
+# Don't `allow` Your Way Around These Lints - every suppression must be
+# a deliberate #[expect(..., reason = "…")] rather than a silent #[allow]
+allow_attributes = "warn"
+allow_attributes_without_reason = "warn"

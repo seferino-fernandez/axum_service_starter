@@ -1,7 +1,20 @@
 use axum::Json;
+use utoipa::OpenApi;
+use utoipa_axum::{router::OpenApiRouter, routes};
 
+use crate::AppState;
 use crate::models::error::ErrorType;
 use crate::models::health::HealthResponse;
+
+#[derive(OpenApi)]
+#[openapi(components(schemas(HealthResponse)))]
+pub struct HealthApi;
+
+impl HealthApi {
+    pub fn router() -> OpenApiRouter<AppState> {
+        OpenApiRouter::with_openapi(HealthApi::openapi()).routes(routes!(health))
+    }
+}
 
 /// Fetch the health of the application.
 #[utoipa::path(
@@ -17,5 +30,6 @@ use crate::models::health::HealthResponse;
     tag = "system",
 )]
 pub async fn health() -> Result<Json<HealthResponse>, ErrorType> {
+    tracing::info!("GET /system/health");
     Ok(Json(HealthResponse::new("ok")))
 }

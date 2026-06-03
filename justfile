@@ -4,7 +4,7 @@ IMAGE_NAME := "axum-service-starter"
 default:
     @just --list
 
-# Run all tests
+# Run all tests: full feature matrix, default features, and doctests
 test:
 	cargo nextest run --all-targets --all-features
 	cargo nextest run
@@ -14,7 +14,7 @@ test:
 lint:
     cargo clippy
 
-# Format the code using rustfmt
+# Format code with rustfmt and apply Clippy's auto-fixable suggestions
 format:
     cargo fmt --all
     cargo clippy --all-targets --all-features --fix --allow-dirty --allow-staged
@@ -27,7 +27,7 @@ build:
 release:
     cargo build --release
 
-# Clean the project directory
+# Remove the target directory and all build artifacts
 clean:
     cargo clean
 
@@ -43,6 +43,15 @@ docker-run:
 run:
     OTEL_SDK_DISABLED=true cargo run
 
-# Generate and show documentation
+# Build with dependency metadata embedded, then scan the binary for known vulnerabilities
+audit:
+    cargo auditable build --release
+    cargo audit bin target/release/axum_service_starter
+
+# Generate and open the project's API documentation in a browser
 docs:
     cargo doc --open
+
+# Generate an HTML coverage report from nextest runs and open it in a browser
+coverage:
+    cargo llvm-cov nextest --open --html

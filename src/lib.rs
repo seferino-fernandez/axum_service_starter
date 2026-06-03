@@ -1,6 +1,5 @@
 use axum::extract::DefaultBodyLimit;
-use opentelemetry::global;
-use opentelemetry_instrumentation_tower::HTTPMetricsLayerBuilder;
+use opentelemetry_instrumentation_tower::HTTPLayerBuilder;
 use utoipa::OpenApi;
 pub mod config;
 pub mod middleware;
@@ -40,16 +39,7 @@ pub fn router(app_config: AppConfig) -> axum::Router {
         .split_for_parts();
 
     let otel_metrics_layer = if !app_state.app_config.otel.sdk_disabled {
-        // Use `leak()` because the meter provider wants a static string (&str) but the service name is from an env variable.
-        let global_meter =
-            global::meter_provider().meter(app_state.app_config.application.name.clone().leak());
-
-        Some(
-            HTTPMetricsLayerBuilder::builder()
-                .with_meter(global_meter)
-                .build()
-                .unwrap(),
-        )
+        Some(HTTPLayerBuilder::builder().build().unwrap())
     } else {
         None
     };

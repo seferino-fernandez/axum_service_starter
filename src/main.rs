@@ -1,3 +1,8 @@
+//! `axum-service-starter`
+
+#![warn(missing_docs)]
+#![forbid(unsafe_code)]
+
 use axum::BoxError;
 use axum_service_starter::config::app_config::app_config;
 use axum_service_starter::utils::telemetry::initialize_opentelemetry_providers;

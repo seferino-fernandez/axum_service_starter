@@ -24,6 +24,9 @@ pub enum ErrorType {
     /// Converts from any `anyhow::Error`.
     #[error("An internal server error has occurred.")]
     InternalError(#[from] anyhow::Error),
+
+    #[error("Not found: {0}")]
+    NotFound(String),
 }
 
 #[derive(Serialize, Deserialize, ToSchema)]
@@ -54,6 +57,7 @@ impl IntoResponse for ErrorType {
             ),
             Self::InvalidRequest(err) => (err, StatusCode::BAD_REQUEST),
             Self::InternalError(err) => (err.to_string(), StatusCode::INTERNAL_SERVER_ERROR),
+            Self::NotFound(msg) => (msg, StatusCode::NOT_FOUND),
         };
 
         // Log detailed error for telemetry.
