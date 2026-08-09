@@ -4,16 +4,17 @@ This repository contains Axum Service Starter built using [Axum](https://github.
 
 The full list of crates used can be found in the [Cargo.toml](./Cargo.toml) file. However, here are some key ones:
 
--   [axum](https://github.com/tokio-rs/axum) - A user-friendly, modular web framework built with Tokio, Tower, and Hyper.
--   [Insta](https://insta.rs/) - A library for snapshot testing in Rust.
--   [utoipa](https://github.com/juhaku/utoipa) - A library for generating OpenAPI documentation in Rust.
--   [opentelemetry-rust](https://github.com/open-telemetry/opentelemetry-rust) - OpenTelemetry for Rust.
+- [axum](https://github.com/tokio-rs/axum) - A user-friendly, modular web framework built with Tokio, Tower, and Hyper.
+- [Insta](https://insta.rs/) - A library for snapshot testing in Rust.
+- [utoipa](https://github.com/juhaku/utoipa) - A library for generating OpenAPI documentation in Rust.
+- [opentelemetry-rust](https://github.com/open-telemetry/opentelemetry-rust) - OpenTelemetry for Rust.
 
 ## Getting Started
 
 ### Rename the application
 
 Rename all of these values to your application name:
+
 - axum_service_starter
 - axum-service-starter
 - Axum Service Starter

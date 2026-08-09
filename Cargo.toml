@@ -12,7 +12,7 @@ path = "src/main.rs"
 name = "axum_service_starter"
 
 [dependencies]
-tokio = { version = "1.52.3", features = ["full"] }
+tokio = { version = "1.53.1", features = ["full"] }
 axum = { version = "0.8.9", features = ["multipart"] }
 tower = { version = "0.5.3", features = [] }
 tower-http = { version = "0.7.0", features = [
@@ -22,23 +22,22 @@ tower-http = { version = "0.7.0", features = [
     "normalize-path",
     "limit",
 ] }
-http = "1.4.1"
-hyper = "1.10.1"
+http = "1.5.0"
+hyper = "1.11.0"
 tonic = { version = "0.14.6", features = ["tls-native-roots"] }
-serde = { version = "1.0.228", features = ["derive"] }
+serde = { version = "1.0.229", features = ["derive"] }
 dotenvy = "0.15.7"
 
-anyhow = "1.0.102"
-thiserror = "2.0.18"
+anyhow = "1.0.104"
+thiserror = "2.0.20"
 
 # OpenTelemetry
 opentelemetry = { version = "0.32.0", features = ["logs", "metrics", "trace", "internal-logs"] }
 opentelemetry_sdk = { version = "0.32.1", features = ["rt-tokio", "logs", "metrics", "trace", "spec_unstable_metrics_views"] }
-opentelemetry-semantic-conventions = { version = "0.32.0", features = ["semconv_experimental"] }
+opentelemetry-semantic-conventions = { version = "0.32.1", features = ["semconv_experimental"] }
 opentelemetry-otlp = { version = "0.32.0", features = ["grpc-tonic","tls-roots"] }
 opentelemetry-appender-tracing = { version = "0.32.0", features = [] }
-# The crate 'opentelemetry-instrumentation-tower' was moved to the opentelemetry-rust-contrib repo but no release has been created for it yet on crates.io.
-opentelemetry-instrumentation-tower = { git = "https://github.com/open-telemetry/opentelemetry-rust-contrib.git", rev = "22a4fb35959cb574347bcddd7128a5015ddd4a1f" }
+opentelemetry-instrumentation-tower = {version = "0.18.0", features = ["axum"] }
 
 # Tracing
 tracing = "0.1.44"
@@ -51,7 +50,7 @@ utoipa = "5.5.0"
 utoipa-scalar = { version = "0.3.0", features = ["axum"] }
 
 [dev-dependencies]
-insta = { version = "1.47.2", features = ["yaml", "filters"] }
+insta = { version = "1.48.0", features = ["yaml", "filters"] }
 tempfile = "3.27.0"
 
 [profile.dev.package]

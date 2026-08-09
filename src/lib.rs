@@ -1,5 +1,5 @@
 use axum::extract::DefaultBodyLimit;
-use opentelemetry_instrumentation_tower::HTTPLayerBuilder;
+use opentelemetry_instrumentation_tower::HTTPLayer;
 use utoipa::OpenApi;
 pub mod config;
 pub mod middleware;
@@ -39,7 +39,7 @@ pub fn router(app_config: AppConfig) -> axum::Router {
         .split_for_parts();
 
     let otel_metrics_layer = if !app_state.app_config.otel.sdk_disabled {
-        Some(HTTPLayerBuilder::builder().build().unwrap())
+        Some(HTTPLayer::new())
     } else {
         None
     };
