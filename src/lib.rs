@@ -1,5 +1,5 @@
 use axum::extract::DefaultBodyLimit;
-use opentelemetry_instrumentation_tower::HTTPLayer;
+use opentelemetry_instrumentation_tower::http::server::Layer as HTTPLayer;
 use utoipa::OpenApi;
 pub mod config;
 pub mod middleware;
